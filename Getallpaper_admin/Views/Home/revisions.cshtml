@@ -1,0 +1,282 @@
+﻿@using Newtonsoft.Json;
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="wrapper">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Revisions</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">Revisions</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">DataTable with default features</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr-no </th>
+                                            <th>Email  </th>
+                                            <th>Name  </th>
+                                            <th>Phone</th>
+                                            <th>Revision Date </th>
+                                            <th>Revision Id </th>
+                                            <th>Description </th>
+                                            <th>Order Id   </th>
+                                            <th>File </th>
+                                            <th>Verified </th>
+                                            <th>Verified By </th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.Revisions)
+                                        {
+                                            <tr>
+                                                <td>@item.Id    </td>
+                                                <td>@item.Email      </td>
+                                                <td>@item.Name      </td>
+                                                <td>@item.Phone  </td>
+                                                <td>@item.RevDate</td>
+                                                <td>@item.Revid     </td>
+                                                <td>@item.Description   </td>
+                                                <td>@item.OrderId      </td>
+                                                <td>@item.File      </td>
+                                                <td>@item.Verified</td>
+                                                <td>@item.VerifiedBy</td>
+                                                <td>
+                                                    <i class="fa fa-pen fa-fw" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" onclick="setForEdit(@JsonConvert.SerializeObject(item,Formatting.Indented))"></i>
+                                                    <i class="fa fa-trash fa-fw" onclick="deleteOrder('@item.Id  ')"></i>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    @*<tfoot>
+                                    <tr>
+                                    <th>Rendering engine</th>
+                                    <th>Browser</th>
+                                    <th>Platform(s)</th>
+                                    <th>Engine version</th>
+                                    <th>CSS grade</th>
+                                    </tr>
+                                    </tfoot>*@
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /Edit Offcanvas -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <h5>Lead Management</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <form>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="revisionId" class="form-label">Revision #</label>
+                            <input type="text" disabled class="form-control" id="revisionId" aria-describedby="emailHelp">
+                            <div id="emailHelp" class="form-text">Id cannot be changed !</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="revisionEmail" class="form-label">Email</label>
+                            <input type="Email" disabled class="form-control" id="revisionEmail">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="revisionName" class="form-label">Revision Name</label>
+                            <input type="text" disabled class="form-control" id="revisionName">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="Phone" class="form-label">Phone</label>
+                            <input type="text" class="form-control" id="Phone">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="revisionDate" class="form-label">Revision Date</label>
+                            <input type="text" disabled class="form-control" id="revisionDate">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="Verified" class="form-label">Verified</label>
+                            <input type="text"  class="form-control" id="Verified">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="revisionDescription" class="form-label">Revision Description</label>
+                            <input type="tel" class="form-control" id="revisionDescription">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="OrderId" class="form-label">Order ID</label>
+                            <input type="text" disabled class="form-control" id="OrderId">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                  
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="VerifiedBy" class="form-label">Verified By</label>
+                            <input type="text"  class="form-control" id="VerifiedBy">
+                        </div>
+                    </div>
+                    @* <div class="col-lg-4">
+                    <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">subject</label>
+                    <input type="text" disabled class="form-control" id="exampleInputPassword1">
+                    </div>
+                    </div>
+                    <div class="col-lg-4">
+                    <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Order Date</label>
+                    <input type="text" disabled class="form-control" id="exampleInputPassword1">
+                    </div>
+                    </div>*@
+                </div>
+                <button type="button" class="btn btn-primary" onclick="updateleed()" id="submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+<!-- /.control-sidebar -->
+@section Scripts{
+    <script>
+        $(document).ready(() => {
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+            //$.ajax({
+            //    type:'GET',
+            //    url: '/Home/GetAllLeed',
+            //    success:function (response){
+            //        console.log(response);
+            //    }
+            //});
+        });
+        /////////  Stting the object to edit   //////
+        function setForEdit(revisionObj) {
+            console.log('Object to be edited : ', revisionObj);
+            $('#revisionId').val(revisionObj?.Id);
+            $('#revisionEmail').val(revisionObj?.Email);
+            $('#revisionName').val(revisionObj?.Name);
+            $('#Phone').val(revisionObj?.Phone);
+            $('#revisionDate').val(revisionObj?.RevDate);
+            $('#revisionDescription').val(revisionObj?.Description);
+            $('#OrderId').val(revisionObj?.OrderId);
+            $('#Verified').val(revisionObj?.Verified);
+            $('#VerifiedBy').val(revisionObj?.VerifiedBy);
+        }
+        function updateleed() {
+            $('#submit-btn').attr('disabled', 'true');
+            $('#Allorder-data').css('cursor', 'not-allowed');
+            let updaterevision = {
+                Id: $('#revisionId').val(),
+                Email: $('#revisionEmail').val(),
+                Name: $('#revisionName').val(),
+                Phone: $('#Phone').val(),
+                RevDate: $('#revisionDate').val(),
+                Description: $('#revisionDescription').val(),
+                OrderId: $('#OrderId').val(),
+                Verified: $('#Verified').val(),
+                VerifiedBy: $('#VerifiedBy').val(),
+            };
+            $.ajax({
+                type: 'POST',
+                url: '/Home/UpdateRevision',
+                data: updaterevision,
+                success: function (response) {
+                    console.log('Revision insertion response : ', response);
+                    window.location.reload();
+                }
+            });
+        }
+        function deleteOrder(Id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Home/DeleteRevision',
+                        data: { Id: Id },
+                        success: function (response) {
+                            console.log('Order Delete response : ', response);
+                            Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                            )
+                            window.location.reload();
+                        }
+                    });
+                }
+            })
+        }
+    </script>
+}
+

@@ -1,0 +1,295 @@
+﻿@using Newtonsoft.Json;
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="wrapper">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Leads</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">Leeds</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">DataTable with default features</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr-no </th>
+                                            <th>Email  </th>
+                                            <th>Phone  </th>
+                                            <th>Leed Date</th>
+                                            <th>Document Type </th>
+                                            <th>Level </th>
+                                            <th>Page No </th>
+                                            <th>Due Date   </th>
+                                            <th>Price </th>
+                                            <th>Status </th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.Leeds)
+                                        {
+                                            <tr>
+                                                <td>@item.LeedId    </td>
+                                                <td>@item.Email      </td>
+                                                <td>@item.Phone      </td>
+                                                <td>@item.LeedDate  </td>
+                                                <td>@item.Documentype</td>
+                                                <td>@item.Level     </td>
+                                                <td>@item.Pageno   </td>
+                                                <td>@item.DueDate      </td>
+                                                <td>@item.Price      </td>
+                                                @if (item.Status == "new Lead")
+                                                {
+                                                    <td><span class="badge bg-primary">@item.Status  </span></td>
+                                                }
+                                                else @*if (item.Status.ToLower() == "completed")*@
+                                                {
+                                                    <td><span class="badge bg-success">@item.Status </span></td>
+                                                }
+                                                <td>
+                                                    <i class="fa fa-pen fa-fw" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" onclick="setForEdit(@JsonConvert.SerializeObject(item,Formatting.Indented))"></i>
+                                                    <i class="fa fa-trash fa-fw" onclick="deleteOrder('@item.LeedId  ')"></i>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    @*<tfoot>
+                                    <tr>
+                                    <th>Rendering engine</th>
+                                    <th>Browser</th>
+                                    <th>Platform(s)</th>
+                                    <th>Engine version</th>
+                                    <th>CSS grade</th>
+                                    </tr>
+                                    </tfoot>*@
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /Edit Offcanvas -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <h5>Lead Management</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <form>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="leedId" class="form-label">Order #</label>
+                            <input type="text" disabled class="form-control" id="leedId" aria-describedby="emailHelp">
+                            <div id="emailHelp" class="form-text">Id cannot be changed !</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="leedEmail" class="form-label">Email</label>
+                            <input type="Email" disabled class="form-control" id="leedEmail">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="LeedDocument" class="form-label">Document Type</label>
+                            <input type="text" disabled class="form-control" id="LeedDocument">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="LeedPage" class="form-label">Page no</label>
+                            <input type="text" disabled class="form-control" id="LeedPage">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="leedLevel" class="form-label">Level</label>
+                            <select class="form-select" id="leedLevel">
+                                <option value="0">---- Select Level ----</option>
+                                <option value="School">School</option> 
+                                <option value="College">College</option>
+                                <option value="Phd">PHD</option>
+                                <option value="Master">Master</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="leedPhone" class="form-label">Contact</label>
+                            <input type="tel" class="form-control" id="leedPhone">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="leedStatus" class="form-label">Status</label>
+                            <select class="form-select" id="leedStatus">
+                                <option value="0">---- Select Status ----</option>
+                                <option value="completed">Completed</option>
+                                <option value="new lead">New Lead</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="leedPrice" class="form-label">Price</label>
+                            <input type="text" class="form-control" id="leedPrice">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="leedDate" class="form-label">Leed Date</label>
+                            <input type="text" disabled class="form-control" id="leedDate">
+                        </div>
+                    </div>
+                    @* <div class="col-lg-4">
+                    <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">subject</label>
+                    <input type="text" disabled class="form-control" id="exampleInputPassword1">
+                    </div>
+                    </div>
+                    <div class="col-lg-4">
+                    <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Order Date</label>
+                    <input type="text" disabled class="form-control" id="exampleInputPassword1">
+                    </div>
+                    </div>*@
+                </div>
+                <button type="button" class="btn btn-primary" onclick="updateleed()" id="submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+<!-- /.control-sidebar -->
+@section Scripts{
+    <script>
+        $(document).ready(() => {
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+            //$.ajax({
+            //    type:'GET',
+            //    url: '/Home/GetAllLeed',
+            //    success:function (response){
+            //        console.log(response);
+            //    }
+            //});
+        });
+        /////////  Stting the object to edit   //////
+        function setForEdit(leedsObj) {
+            console.log('Object to be edited : ', leedsObj);
+            $('#leedId').val(leedsObj?.LeedId);
+            $('#leedEmail').val(leedsObj?.Email);
+            $('#LeedDocument').val(leedsObj?.Documentype);
+            $('#LeedPage').val(leedsObj?.Pageno);
+            $('#leedLevel').val(leedsObj?.Level);
+            $('#leedPhone').val(leedsObj?.Phone);
+            $('#leedStatus').val(leedsObj?.Status.toLowerCase());
+            $('#leedPrice').val(leedsObj?.Price);
+            $('#leedDate').val(leedsObj?.LeedDate);
+        }
+        function updateleed() {
+            $('#submit-btn').attr('disabled', 'true');
+            $('#Allorder-data').css('cursor', 'not-allowed');
+            let updateleed = {
+                Documentype: $('#LeedDocument').val(),
+                Email: $('#leedEmail').val(),
+                LeedDate: $('#leedDate').val(),
+                LeedId: $('#leedId').val(),
+                Level: $('#leedLevel').val(),
+                Pageno: $('#LeedPage').val(),
+                Phone: $('#leedPhone').val(),
+                Price: $('#leedPrice').val(),
+                Status: $('#leedStatus').val(),
+            };
+            $.ajax({
+                type: 'POST',
+                url: '/Home/UpdateLeed',
+                data: updateleed,
+                success: function (response) {
+                    console.log('Order insertion response : ', response);
+                    window.location.reload();
+                }
+            });
+        }
+        function deleteOrder(LeedId) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Home/DeleteLeed',
+                        data: { LeedId: LeedId },
+                        success: function (response) {
+                            console.log('Order Delete response : ', response);
+                            Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                            )
+                            window.location.reload();
+                        }
+                    });
+                }
+            })
+        }
+    </script>
+}

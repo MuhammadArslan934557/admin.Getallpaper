@@ -1,0 +1,304 @@
+﻿@using Newtonsoft.Json;
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="wrapper">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>UNpaid Order</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">Unpaid Order</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">DataTable with default features</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr-no </th>
+                                            <th>Order Id </th>
+                                            <th>Email  </th>
+                                            <th>Phone  </th>
+                                            <th>Price</th>
+                                            <th>Payment Status </th>
+                                            <th>Page No  </th>
+                                            <th>Subject </th>
+                                            <th>Order Date  </th>
+                                            <th>Citation</th>
+                                            <th>Order Status </th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.Orders)
+                                        {
+                                            <tr>
+                                                <td>@item.Id      </td>
+                                                <td>@item.OrderId </td>
+                                                <td>@item.Email   </td>
+                                                <td>@item.Phone   </td>
+                                                <td>@item.Price   </td>
+                                                <td><span class="badge bg-danger">@item.Payment </span></td>
+                                                <td>@item.Pages     </td>
+                                                <td>@item.Subject   </td>
+                                                <td>@item.OrderDate </td>
+                                                <td>@item.Citation  </td>
+                                                @if (item.OrderStatus == "Completed")
+                                                {
+                                                    <td><span class="badge bg-primary">@item.OrderStatus  </span></td>
+                                                }
+                                                else @*if (item.Status == "New Order")*@
+                                                {
+                                                    <td><span class="badge bg-success">@item.OrderStatus </span></td>
+                                                }
+                                                <td>
+                                                    <i class="fa fa-pen fa-fw" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" onclick="setForEdit(@JsonConvert.SerializeObject(item,Formatting.Indented))"></i>
+                                                    <i class="fa fa-trash fa-fw" onclick="deleteOrder('@item.Id  ')"></i>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    @*<tfoot>
+                                    <tr>
+                                    <th>Rendering engine</th>
+                                    <th>Browser</th>
+                                    <th>Platform(s)</th>
+                                    <th>Engine version</th>
+                                    <th>CSS grade</th>
+                                    </tr>
+                                    </tfoot>*@
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /Edit Offcanvas -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <h5>Lead Management</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <form>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="unpaidId" class="form-label">Order #</label>
+                            <input type="text" disabled class="form-control" id="unpaidId" aria-describedby="emailHelp">
+                            <div id="emailHelp" class="form-text">Id cannot be changed !</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="unpaidEmail" class="form-label">Email</label>
+                            <input type="Email" disabled class="form-control" id="unpaidEmail">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="unpaidsubject" class="form-label">Subject</label>
+                            <input type="text" disabled class="form-control" id="unpaidsubject">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="unpaidPage" class="form-label">Page no</label>
+                            <input type="text" class="form-control" id="unpaidPage">
+                        </div>
+                    </div>
+                       <div class="col-lg-4">
+                    <div class="mb-3">
+                    <label for="unpaidpaymentstatus" class="form-label">Payment Status</label>
+                    <select class="form-select" id="unpaidpaymentstatus">
+                    <option value="0">----Select Payment Status----</option>
+                    <option value="Unpaid">Unpaid</option>
+                    <option value="Paid">Paid</option>
+                    </select>
+                    </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="unpaidPhone" class="form-label">Contact</label>
+                            <input type="tel" class="form-control" id="unpaidPhone">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="unpaidStatus" class="form-label">Status</label>
+                            <select class="form-select" id="unpaidStatus">
+                                <option value="0">---- Select Status ----</option>
+                                <option value="Completed">Completed</option>
+                                <option value="New Order">New Order</option>
+                                <option value="In Progress">In Progress</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="unpaidPrice" class="form-label">Price</label>
+                            <input type="text" class="form-control" id="unpaidPrice">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="Unpaidcitation" class="form-label">Citation</label>
+                            <input type="text" class="form-control" id="Unpaidcitation">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <label for="unpaidorderdate" class="form-label">Leed Date</label>
+                            <input type="text" disabled class="form-control" id="unpaidorderdate">
+                        </div>
+                    </div>
+                    @* <div class="col-lg-4">
+                    <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">subject</label>
+                    <input type="text" disabled class="form-control" id="exampleInputPassword1">
+                    </div>
+                    </div>
+                    <div class="col-lg-4">
+                    <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Order Date</label>
+                    <input type="text" disabled class="form-control" id="exampleInputPassword1">
+                    </div>
+                    </div>*@
+                </div>
+                <button type="button" class="btn btn-primary" onclick="updateunpaid()" id="submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+<!-- /.control-sidebar -->
+@section Scripts{
+    <script>
+        $(document).ready(() => {
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+            //$.ajax({
+            //    type:'GET',
+            //    url: '/Home/GetAllLeed',
+            //    success:function (response){
+            //        console.log(response);
+            //    }
+            //});
+        });
+        ///////  Stting the object to edit   //////
+        function setForEdit(unpaidObj) {
+            console.log('Object to be edited : ', unpaidObj);
+            $('#unpaidId').val(unpaidObj?.Id);
+            $('#unpaidEmail').val(unpaidObj?.Email);
+            $('#unpaidsubject').val(unpaidObj?.Subject);
+            $('#unpaidPage').val(unpaidObj?.Pages);
+            $('#unpaidpaymentstatus').val(unpaidObj?.Payment);
+            $('#unpaidPhone').val(unpaidObj?.Phone);
+            $('#unpaidStatus').val(unpaidObj?.OrderStatus);
+            $('#unpaidPrice').val(unpaidObj?.Price);
+            $('#unpaidorderdate').val(unpaidObj?.OrderDate);
+            $('#Unpaidcitation').val(unpaidObj?.Citation);
+        }
+        function updateunpaid() {
+            $('#submit-btn').attr('disabled', 'true');
+            $('#Allorder-data').css('cursor', 'not-allowed');
+            let updateunpaid = {
+                Id: $('#unpaidId').val(),
+                Email: $('#unpaidEmail').val(),
+                Subject: $('#unpaidsubject').val(),
+                Pages: $('#unpaidPage').val(),
+                Payment: $('#unpaidpaymentstatus').val(),
+                Phone: $('#unpaidPhone').val(),
+                OrderStatus: $('#unpaidStatus').val(),
+                Price: $('#unpaidPrice').val(),
+                OrderDate: $('#unpaidorderdate').val(),
+                Citation: $('#Unpaidcitation').val(),
+            };
+            $.ajax({
+                type: 'POST',
+                url: '/Home/UpdateUnpaidOrder',
+                data: updateunpaid,
+                success: function (response) {
+                    console.log('Order insertion response : ', response);
+                    window.location.reload();
+                }
+            });
+        }
+        function deleteOrder(Id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Home/DeleteUnpaidOrder',
+                        data: { Id: Id },
+                        success: function (response) {
+                            console.log('Order Delete response : ', response);
+                            Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                            )
+                            window.location.reload();
+                        }
+                    });
+                }
+            })
+        }
+    </script>
+}
