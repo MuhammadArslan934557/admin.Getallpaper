@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "jI8nl5ikGenzDSlliG8okNf60fnp5HLDc+c15hWKojjtRpCSH5RWrXgIq8b9VCffWR/pBB7NrsCrISb+KW0z8w==",
+  "dgSpecHash": "gZuqI2atk3c3ATpyx/etrs5BCXtlmT5OYbNMwtJUdFnZ5XDX7UjbDKxRCLbddCyk1pMJdwlxzkpc04t6bjKgpw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\R-10\\source\\repos\\Getallpaper_admin\\Domain\\Domain.csproj",
+  "projectFilePath": "C:\\Users\\R-10\\Documents\\GitHub\\admin.Getallpaper\\Domain\\Domain.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\R-10\\.nuget\\packages\\google.protobuf\\3.21.9\\google.protobuf.3.21.9.nupkg.sha512",
     "C:\\Users\\R-10\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

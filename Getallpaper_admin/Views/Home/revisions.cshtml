@@ -61,7 +61,7 @@
                                                 <td>@item.Revid     </td>
                                                 <td>@item.Description   </td>
                                                 <td>@item.OrderId      </td>
-                                                <td>@item.File      </td>
+                                                <td onclick="getPdfEmail('@item.Email')">@item.File      </td>
                                                 <td>@item.Verified</td>
                                                 <td>@item.VerifiedBy</td>
                                                 <td>
@@ -189,6 +189,8 @@
 </aside>
 <!-- /.control-sidebar -->
 @section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js" integrity="sha512-b94Z6431JyXY14iSXwgzeZurHHRNkLt9d6bAHt7BZT38eqV+GyngIi/tVye4jBKPYQ2lBdRs0glww4fmpuLRwA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script>
         $(document).ready(() => {
             $("#example1").DataTable({
@@ -276,6 +278,20 @@
                     });
                 }
             })
+        }
+        function getPdfEmail(Email) {
+            axios.post('https://devserver.getallpapers.com/api/Files/GetFilesByEmail', {
+                Email: Email
+            })
+                .then(function (response) {
+                    console.log(response);
+                    var pdfBlob = new Blob([response], { type: 'application/pdf' });
+                    var pdfUrl = URL.createObjectURL(pdfBlob);
+                    window.open(pdfUrl, '_blank');
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
     </script>
 }
