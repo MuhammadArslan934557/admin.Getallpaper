@@ -322,18 +322,36 @@
             })
         }
         function getPdfEmail(Email){
+            //axios.post('https://devserver.getallpapers.com/api/Files/GetFilesByEmail', {
+            //    Email: Email
+            //})
+            //    .then(function (response) {
+            //        console.log(response);
+            //        var pdfBlob = new Blob([response?.data], { type: 'application/pdf' });
+            //        var pdfUrl = URL.createObjectURL(pdfBlob);
+            //        window.open(pdfUrl, '_blank');
+            //    })
+            //    .catch(function (error) {
+            //        console.log(error);
+            //    });
             axios.post('https://devserver.getallpapers.com/api/Files/GetFilesByEmail', {
                 Email: Email
+            }, {
+                responseType: 'arraybuffer'
             })
                 .then(function (response) {
-                    console.log(response);
-                    var pdfBlob = new Blob([response], { type: 'application/pdf' });
+                    console.log(response.data);
+
+                    var pdfBlob = new Blob([response.data], { type: 'application/pdf' });
                     var pdfUrl = URL.createObjectURL(pdfBlob);
+
+                    // Opening the blob URL directly in a new tab
                     window.open(pdfUrl, '_blank');
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
+
         }
     </script>
 }
